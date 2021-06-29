@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <form>
+
+        <input type="text" name="answer[]" value="foo" checked />
+        <input type="text" name="answer[]" value="bar" />
+        <input type="text" name="answer[]" value="baz" />
+    </form> -->
+    <form id="car" action="" method="post">
+        <section class="inputContainer">
+            <section class="carInfo">
+                <input type="text" name="Make" class="make" placeholder="Make" />
+                <input type="text" name="Model" class="model" placeholder="Model" />
+                <input type="text" name="Year" class="year" placeholder="Year" />
+                <input type="text" name="Color" class="color" placeholder="Color" />
+            </section>
+            <section class="carInfo">
+                <input type="text" name="Make" class="make" placeholder="Make" />
+                <input type="text" name="Model" class="model" placeholder="Model" />
+                <input type="text" name="Year" class="year" placeholder="Year" />
+                <input type="text" name="Color" class="color" placeholder="Color" />
+            </section>
+        </section>
+        <input type="hidden" name="AllCarData" /> <a class="addAnotherCar" href="#">Add another car</a>
+
+        <input type="submit" class="submit" value="Submit" />
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <!-- <script>
+        var values = [];
+        var stuff = $('input[name="answer[]"]').each(function (i, item) {
+            values.push(item.value;
+        });
+
+        alert(values);
+    </script> -->
+    <script>
+        $.fn.serializeObject = function (data) {
+            var els = $(this).find(':input').get();
+            if (typeof data != 'object') {
+                // return all data
+                data = {};
+                $.each(els, function () {
+                    if (this.name && !this.disabled && (this.checked || /select|textarea/i.test(this.nodeName) || /text|hidden|password/i.test(this.type))) {
+                        data[this.name] = $(this).val();
+                    }
+                });
+                return data;
+            }
+        };
+
+        $(document).ready(function () {
+            // $('.addAnotherCar').click(function (e) {
+            //     e.preventDefault();
+            //     var count = 1;
+            //     count++;
+            //     $("<hr/><section class='carInfo'><input type='text' name='Make' class='make' /><input type='text' name='Model' class='model' /><input type='text' name='Year' class='year' /><input type='text' name='Color' class='color' /></section>").appendTo('.inputContainer').attr('class', 'carInfo' + count);
+            // });
+
+
+            $("#car").submit(function () {
+                var data = [];
+                $(this).find(".inputContainer section").each(function () {
+                    data[data.length] = $(this).serializeObject();
+                })
+                var carDataString = JSON.stringify(data);
+                // carDataString.each(function(obj,index){
+                //     console.log(obj.Make);
+                // })
+                var parsejson = JSON.parse(carDataString);
+                // for(var i=0;i<parsejson.length;i++){
+                //     console.log(parsejson[i].Make);
+                // }
+                parsejson.map((data) => {
+                    console.log(data.Make);
+                })
+
+                $("input[name='AllCarData']").val(carDataString);
+                return false
+            });
+        });
+    </script>
+</body>
+
+</html>
